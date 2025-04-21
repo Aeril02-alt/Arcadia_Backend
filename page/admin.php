@@ -34,12 +34,16 @@ include '../config/For_User/Rapport_Control.php';
     <form action="admin.php" method="POST">
         <label for="prenom">Prénom :</label>
         <input type="text" id="prenom" name="prenom" required>
+        </br>
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required>
+        </br>
         <label for="email">Email :</label>
         <input type="email" id="email" name="email" required>
+        </br>
         <label for="password">Mot de passe :</label>
         <input type="password" id="password" name="password" required>
+        </br>
         <label for="role">Rôle :</label>
         <select id="role" name="role" required>
             <option value="2">Vétérinaire</option>
@@ -77,16 +81,39 @@ include '../config/For_User/Rapport_Control.php';
 <section class="gestion_animaux">
 <h2>Gestion des Animaux</h2>
 <form action="admin.php" method="POST" enctype="multipart/form-data">
-    <label for="animal_prenom">Prénom :</label><input type="text" id="animal_prenom" name="prenom" required>
+    <label for="animal_prenom">Prénom :</label>
+    <input type="text" id="animal_prenom" name="prenom" required>
+    </br>
     <label for="etat">État :</label>
     <select id="etat" name="etat">
         <option value="Sain">Sain</option>
         <option value="Malade">Malade</option>
         <option value="Blessé">Blessé</option>
     </select>
-    <label for="race_id">Race ID :</label><input type="number" id="race_id" name="race_id" required>
-    <label for="habitat_id">Habitat ID :</label><input type="number" id="habitat_id" name="habitat_id" required>
-    <label for="animal_image">Image :</label><input type="file" id="animal_image" name="animal_image">
+    </br>
+    <label for="race_id">Race :</label>
+    <select id="race_id" name="race_id" required>
+        <?php
+        $races = $pdo->query("SELECT race_id, label FROM race")->fetchAll();
+        foreach ($races as $race) {
+            echo "<option value='{$race['race_id']}'>{$race['label']}</option>";
+        }
+        ?>
+    </select>
+    </br>
+    <label for="habitat_id">Habitat :</label>
+    <select id="habitat_id" name="habitat_id" required>
+        <?php
+        $habitats = $pdo->query("SELECT habitat_id, nom FROM habitat")->fetchAll();
+        foreach ($habitats as $habitat) {
+            echo "<option value='{$habitat['habitat_id']}'>{$habitat['nom']}</option>";
+        }
+        ?>
+    </select>
+
+    <label for="animal_image">Image :</label>
+    <input type="file" id="animal_image" name="animal_image">
+
     <button type="submit" name="add_animal">Ajouter l'animal</button>
 </form>
 
@@ -140,10 +167,10 @@ while ($r = $stmt->fetch()) {
 <section class="gestion_habitats">
 <h2>Gestion des Habitats</h2>
 <form action="admin.php" method="POST" enctype="multipart/form-data">
-    <label for="habitat_nom">Nom :</label><input type="text" id="habitat_nom" name="nom" required>
-    <label for="habitat_description">Description :</label><textarea id="habitat_description" name="description"></textarea>
-    <label for="habitat_commentaire">Commentaire :</label><textarea id="habitat_commentaire" name="commentaire_habitat"></textarea>
-    <label for="habitat_image">Image :</label><input type="file" id="habitat_image" name="habitat_image">
+    <label for="habitat_nom">Nom :</label><input type="text" id="habitat_nom" name="nom" required></br>
+    <label for="habitat_description">Description :</label><textarea id="habitat_description" name="description"></textarea></br>
+    <label for="habitat_commentaire">Commentaire :</label><textarea id="habitat_commentaire" name="commentaire_habitat"></textarea></br>
+    <label for="habitat_image">Image :</label><input type="file" id="habitat_image" name="habitat_image"></br>
     <button type="submit" name="add_habitat">Ajouter l'habitat</button>
 </form>
 <h3>Liste des Habitats</h3>
@@ -194,33 +221,68 @@ while ($s = $stmt->fetch()) {
 
 <!-- GESTION RAPPORTS VÉTÉRINAIRES -->
 <section class="gestion_rapports">
-<h2>Rapports Vétérinaires</h2>
-<form action="admin.php" method="POST">
-    <label for="rapport_date">Date :</label><input type="date" id="rapport_date" name="date" required>
-    <label for="rapport_detail">Détail :</label><textarea id="rapport_detail" name="detail" required></textarea>
-    <label for="rapport_animal_id">ID Animal :</label><input type="number" id="rapport_animal_id" name="animal_id" required>
-    <label for="rapport_user_id">ID Utilisateur :</label><input type="number" id="rapport_user_id" name="user_id" required>
-    <button type="submit" name="add_rapport">Ajouter le rapport</button>
-</form>
-<h3>Liste des Rapports</h3>
-<table><tr><th>Date</th><th>Détail</th><th>Animal</th><th>Utilisateur</th><th>Action</th></tr>
-<?php
-$stmt = $pdo->query("SELECT * FROM rapport_veterinaire");
-while ($rp = $stmt->fetch()) {
-    echo "<tr>
-        <td>{$rp['date']}</td>
-        <td>{$rp['detail']}</td>
-        <td>{$rp['animal_id']}</td>
-        <td>{$rp['user_id']}</td>
-        <td>
-            <form method='POST'><input type='hidden' name='rapport_veterinaire_id' value='{$rp['rapport_veterinaire_id']}'>
-            <button type='submit' name='delete_rapport'>Supprimer</button></form>
-        </td>
-    </tr>";
-}
-?>
-</table>
+    <h2>Rapports Vétérinaires</h2>
+
+    <!-- Formulaire d'ajout -->
+    <form action="admin.php" method="POST">
+        <label for="date_rapport">Date :</label>
+        <input type="date" id="date_rapport" name="date" required>
+
+        <label for="detail_rapport">Détail :</label>
+        <textarea id="detail_rapport" name="detail" required></textarea>
+
+        <label for="animal_id">Animal :</label>
+        <select id="animal_id" name="animal_id" required>
+            <?php
+            $animaux = $pdo->query("SELECT animal_id, prenom FROM animal")->fetchAll();
+            foreach ($animaux as $a) {
+                echo "<option value='{$a['animal_id']}'>{$a['prenom']}</option>";
+            }
+            ?>
+        </select>
+
+        <label for="user_id">Vétérinaire :</label>
+        <select id="user_id" name="user_id" required>
+            <?php
+            $veterinaires = $pdo->query("SELECT user_id, prenom, nom FROM utilisateur WHERE role_id = 2")->fetchAll();
+            foreach ($veterinaires as $v) {
+                echo "<option value='{$v['user_id']}'>{$v['prenom']} {$v['nom']}</option>";
+            }
+            ?>
+        </select>
+
+        <button type="submit" name="add_rapport">Ajouter le rapport</button>
+    </form>
+
+    <!-- Tableau de rapports -->
+    <h3>Liste des Rapports</h3>
+    <table>
+        <tr><th>Date</th><th>Détail</th><th>Animal</th><th>Vétérinaire</th><th>Action</th></tr>
+        <?php
+        $stmt = $pdo->query("
+            SELECT r.rapport_veterinaire_id, r.date, r.detail, a.prenom AS animal_nom, u.prenom AS user_prenom, u.nom AS user_nom
+            FROM rapport_veterinaire r
+            JOIN animal a ON r.animal_id = a.animal_id
+            JOIN utilisateur u ON r.user_id = u.user_id
+        ");
+        while ($rp = $stmt->fetch()) {
+            echo "<tr>
+                <td>{$rp['date']}</td>
+                <td>{$rp['detail']}</td>
+                <td>{$rp['animal_nom']}</td>
+                <td>{$rp['user_prenom']} {$rp['user_nom']}</td>
+                <td>
+                    <form method='POST'>
+                        <input type='hidden' name='rapport_veterinaire_id' value='{$rp['rapport_veterinaire_id']}'>
+                        <button type='submit' name='delete_rapport'>Supprimer</button>
+                    </form>
+                </td>
+            </tr>";
+        }
+        ?>
+    </table>
 </section>
+
 </main>
 </body>
 </html>
