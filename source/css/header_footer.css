@@ -1,0 +1,184 @@
+/* header.css */
+#header .navContainer {
+    display: flex;                  /* Aligne le logo et la navigation en ligne */
+    align-items: center;            /* Centre verticalement les éléments */
+    justify-content: space-between; /* Place le logo à gauche et la liste à droite */
+    width: 100%;                    /* Utilise toute la largeur */
+    padding: 10px 20px;
+    flex-wrap: wrap;                /* Permet au contenu de passer à la ligne */
+}
+
+/* Style du logo */
+.logoArcadia {
+    width: 50px;                   /* Ajuste la taille du logo */
+    height: auto;
+    flex-shrink: 0;  
+    overflow: hidden;
+    border-radius: 50px;               /* Empêche le logo de rétrécir */
+}
+
+/* Style de la liste de navigation */
+.navList {
+    display: flex;                  /* Aligne les éléments du menu en ligne par défaut */
+    gap: 20px;                      /* Espace entre chaque élément de menu */
+    list-style-type: none;          /* Retire les puces de la liste */
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;                   /* Prend l’espace restant */
+    justify-content: flex-end;      /* Aligne les éléments à droite */
+    flex-wrap: wrap;                /* Permet à la liste de navigation de passer à la ligne si nécessaire */
+    align-items: center;
+}
+
+/* Style pour chaque élément du menu */
+.navHeader {
+    display: flex;
+    flex: 1 1 100px;                /* Les éléments s'adaptent à la largeur disponible */
+    justify-content: center;        /* Centre le contenu à l'intérieur de chaque élément */
+}
+
+/* Style pour chaque lien dans la navigation */
+.texteHeader {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Style pour le lien actif */
+.active {
+    font-weight: bold;
+}
+
+/* footer.css */
+/* Conteneur principal pour le pied de page */
+#footer {
+    display: flex;                  /* Aligne les éléments en ligne */
+    justify-content: center;        /* Centre les éléments dans le pied de page */
+    flex-wrap: wrap;                /* Permet de passer en colonne si l'espace est limité */
+    padding: 20px;                  /* Espacement autour du contenu du pied de page */
+    background-color: rgba(0, 0, 0, 0.3);         /* Couleur de fond pour le pied de page */
+    color: #fff;                    /* Couleur du texte */
+}
+
+/* Style pour chaque élément de la liste du pied de page */
+.navFooter {
+    display: flex;                  /* Chaque élément prend une ligne ou colonne */
+    flex: 1 1 150px;                /* Les éléments s'adaptent en fonction de la largeur disponible */
+    justify-content: center;        /* Centre le contenu de chaque élément */
+    margin: 10px;                   /* Espace autour de chaque élément */
+}
+
+/* Style pour chaque bouton dans le pied de page */
+.texteFooter {
+    background-color: #555;         /* Couleur de fond pour les boutons */
+    color: #fff;                    /* Couleur du texte des boutons */
+    border: none;                   /* Retire la bordure */
+    padding: 10px 20px;             /* Espacement interne des boutons */
+    cursor: pointer;                /* Curseur pointer pour indiquer un clic */
+    font-size: 16px;                /* Taille de la police */
+    border-radius: 5px;             /* Bords arrondis */
+    transition: background-color 0.3s; /* Transition pour effet au survol */
+}
+
+/* Effet de survol pour les boutons */
+.texteFooter:hover {
+    background-color: #777;         /* Change la couleur de fond au survol */
+}
+
+
+/* Pour les POP UP */
+/* Styles généraux pour le formulaire */
+.popupForm {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    max-width: 90%;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Style des titres et labels */
+.popupForm h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.popupForm label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+/* Style des champs de saisie */
+.popupForm input[type="text"],
+.popupForm input[type="email"],
+.popupForm input[type="password"],
+.popupForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* Style du champ de texte */
+.popupForm textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Style des boutons */
+.popupForm button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #388813;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popupForm button[type="submit"]:hover {
+    background-color: #0c963a;
+}
+
+/* Style du bouton de fermeture */
+.closeBtn {
+    float: right;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.closeBtn:hover {
+    color: #333;
+}

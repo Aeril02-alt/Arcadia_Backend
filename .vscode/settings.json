@@ -1,0 +1,22 @@
+{
+    "liveServer.settings.port": 5501,
+    "cSpell.words": [
+        "envoyé"
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Arcadia_RNCP",
+            "database": "arcadia",
+            "username": "arcadia-user",
+            "password": "azerty123"
+        }
+    ]
+}

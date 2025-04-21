@@ -1,0 +1,56 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../../doc/photo/image_site/background_WEBP.webp');
+    background-color: #f4f4f4;
+}
+
+header, footer {
+    width: 100%;
+    padding: 1rem;
+    color: white;
+    text-align: center;
+    background-image: url('../../doc/photo/image_site/border_WEBP.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    border-radius: 40px;
+}
+
+main {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+section, form, .principal, .principalHabitat, .Sectionhabitat, .boutonAnimal {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
