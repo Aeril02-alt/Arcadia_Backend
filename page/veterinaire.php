@@ -3,6 +3,7 @@ require_once '../config/db_config.php';
 // require_once '../config/For_watch/Auth_User/auth_veterinaire.php';
 require_once '../config/For_watch/Veterinaire_co.php';
 require_once '../config/For_User/Rapport_Control.php';
+require_once '../config/For_User/Animals_Control.php';
 
 $animaux_data = []; // Sécurité minimale
 
@@ -60,23 +61,60 @@ try {
                 <?php else: ?>
                     <p><em>Aucun rapport vétérinaire pour cet animal.</em></p>
                 <?php endif; ?>
-
-                <form method="POST" action="">
-                    <h4>Ajouter un rapport :</h4>
-                    <input type="hidden" name="add_rapport" value="1">
-                    <input type="hidden" name="animal_id" value="<?= $animal['animal_id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?? '' ?>">
-
-                    <label>Date :</label>
-                    <input type="date" name="date" required><br>
-
-                    <label>Détail :</label><br>
-                    <textarea name="detail" required></textarea><br>
-
-                    <button type="submit">Ajouter</button>
-                </form>
-            </section>
         <?php endforeach; ?>
+
+
+        <!-- AJOUT RAPPORT VÉTÉRINAIRE -->
+        <section class="ajout_rapport">
+            <h2>Ajouter un Rapport Vétérinaire</h2>
+
+            <form action="veterinaire.php" method="POST">
+                <label for="animal_id">Animal concerné :</label>
+                <select id="animal_id" name="animal_id" required>
+                    <option value="">-- Sélectionner un animal --</option>
+                    <?php
+                    try {
+                        $animaux = $pdo->query("SELECT animal_id, prenom FROM animal ORDER BY prenom")->fetchAll();
+                        foreach ($animaux as $animal) {
+                            echo "<option value='" . htmlspecialchars($animal['animal_id']) . "'>" . htmlspecialchars($animal['prenom']) . "</option>";
+                        }
+                    } catch (PDOException $e) {
+                        echo "<option disabled>Erreur chargement animaux</option>";
+                        error_log("Erreur chargement animaux : " . $e->getMessage());
+                    }
+                    ?>
+                </select>
+                <br>
+
+                <label for="date">Date du rapport :</label>
+                <input type="date" id="date" name="date" required>
+                <br>
+
+                <label for="detail">Détails :</label>
+                <textarea id="detail" name="detail" rows="4" required></textarea>
+                <br>
+
+                <label for="user_id">Vétérinaire ayant rédigé :</label>
+                <select id="user_id" name="user_id" required>
+                    <option value="">-- Sélectionner un vétérinaire --</option>
+                    <?php
+                    try {
+                        $veterinaires = $pdo->query("SELECT user_id, nom, prenom FROM utilisateur WHERE role_id = 2 ORDER BY nom")->fetchAll();
+                        foreach ($veterinaires as $user) {
+                            $fullName = htmlspecialchars($user['prenom'] . ' ' . $user['nom']);
+                            echo "<option value='" . (int) $user['user_id'] . "'>$fullName</option>";
+                        }
+                    } catch (PDOException $e) {
+                        echo "<option disabled>Erreur chargement vétérinaires</option>";
+                        error_log("Erreur chargement utilisateurs vétérinaires : " . $e->getMessage());
+                    }
+                    ?>
+                </select>
+                <br>
+
+                <button type="submit" name="add_rapport">Ajouter le rapport</button>
+            </form>
+        </section>
     </main>
 </body>
 </html>

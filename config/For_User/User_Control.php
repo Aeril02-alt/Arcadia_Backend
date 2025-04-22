@@ -5,18 +5,30 @@
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ajout d'un utilisateur
     if (isset($_POST['add_user'])) {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, password, role_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $_POST['prenom'],
-                $_POST['nom'],
-                $_POST['email'],
-                password_hash($_POST['password'], PASSWORD_DEFAULT),
-                $_POST['role_id']
-            ]);
-            echo "Utilisateur ajouté avec succès.";
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+        // Nettoyage et validation des champs
+        $prenom = htmlspecialchars(trim($_POST['prenom'] ?? ''));
+        $nom = htmlspecialchars(trim($_POST['nom'] ?? ''));
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $password = $_POST['password'];
+        $role_id = isset($_POST['role_id']) ? $_POST['role_id'] : 3; // Par défaut, Employé (role_id = 3)
+    
+        // Vérification que tous les champs sont remplis et valides
+        if ($prenom && $nom && $email && $password && $role_id) {
+            // Hachage du mot de passe pour la sécurité
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    
+            try {
+                // Insertion sécurisée de l'utilisateur dans la base de données
+                $stmt = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, password, role_id) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$prenom, $nom, $email, $passwordHash, $role_id]);
+    
+                echo "Utilisateur ajouté avec succès.";
+            } catch (PDOException $e) {
+                error_log($e->getMessage());  // Journalisation de l'erreur pour débogage
+                echo "Erreur lors de l'ajout de l'utilisateur.";
+            }
+        } else {
+            echo "Tous les champs sont requis et l'email doit être valide.";
         }
     }
 

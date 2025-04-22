@@ -1,10 +1,16 @@
 <?php
+// ===============================================
+// Fichier : db_config.php
+// Objectif : Etablir une connexion PDO sécurisée
+// ===============================================
+
 $host = 'localhost';
 $dbname = 'arcadia';
 $username = 'arcadia-user';
 $password = 'azerty123';
 
 try {
+    // Connexion PDO avec encodage utf8mb4 et gestion des erreurs par exception
     $pdo = new PDO(
         "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
         $username,
@@ -15,7 +21,10 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    echo "Erreur de connexion à la base de données : " . $e->getMessage();
+    // Enregistre l'erreur dans les logs serveur sans l'afficher à l'écran
+    error_log("Erreur PDO : " . $e->getMessage());
+    // Message utilisateur générique
+    echo "Impossible de se connecter à la base de données.";
     exit;
 }
 ?>

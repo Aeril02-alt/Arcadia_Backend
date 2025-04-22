@@ -12,42 +12,42 @@
 <body>
  
     <header>
-        <nav>
+        <nav aria-label="Footer Navigation">
             <ul id="header"></ul>
         </nav>
     </header>
     <?php include '../source/php/forHabitat/Section.php'; ?>
     
     <!--
-    <main>  Création d'un menu pour les différents habitats 
-        <section class="principal"> Encart principal contenant tous les éléments de l'habitat 
+    <main>  Création d'un menu pour les différents habitats
+        <section class="principal"> Encart principal contenant tous les éléments de l'habitat
             
-             Zone pour afficher la photo de l'habitat 
+             Zone pour afficher la photo de l'habitat
             <div class="photoHabitat">
-                 éléments pour interagir avec les animaux de cet habitat 
+                 éléments pour interagir avec les animaux de cet habitat
                 <section class="boutonAnimaux">
-                     Ajoutez ici des boutons ou des liens vers les animaux spécifiques de cet habitat 
+                     Ajoutez ici des boutons ou des liens vers les animaux spécifiques de cet habitat
                 </section>
             </div>
             
-             Section pour afficher les commentaires relatifs à l'habitat 
+             Section pour afficher les commentaires relatifs à l'habitat
             <section class="commentaireHabitat">
-                 Contenu des commentaires ou espace pour affichage dynamique 
+                 Contenu des commentaires ou espace pour affichage dynamique
             </section>
             
-        </section> 
+        </section>
     </main>
     -->
 
     <footer>
-        <nav>
+        <nav aria-label="Footer Navigation">
             <ul id="footer"></ul>
         </nav>
     </footer>
 <script>
     document.querySelectorAll('.boutonAnimal').forEach((element) => {
     element.addEventListener('click', () => {
-        const animalId = element.getAttribute('data-animal-id'); // appel la classe animal specifique de <detail> 
+        const animalId = element.getAttribute('data-animal-id'); // appel la classe animal specifique de <detail>
         fetch('../config/update_compteur.php', {
             method: 'POST',
             headers: {
