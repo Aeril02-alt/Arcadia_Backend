@@ -1,4 +1,15 @@
 <?php
+
+$timeout = 30*60; // 30 minutes
+session_start();
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 1) {
+    // Redirection vers la page de connexion ou index
+    echo "🔒 Accès refusé : vous n'êtes pas connecté ou vous n'avez pas les droits.";
+    exit;
+}
+
 // admin.php
 include '../config/For_User/Animals_Control.php';
 include '../config/For_User/Habitat_Control.php';
@@ -48,6 +59,7 @@ require_once '../config/For_Watch/Auth_User/auth_Admin.php';
             <br>
             <label for="role_id">Rôle :</label>
             <select id="role_id" name="role_id" required>
+                <option value="1">Administrateur</option>
                 <option value="2">Vétérinaire</option>
                 <option value="3">Employé</option>
             </select>

@@ -1,4 +1,15 @@
 <?php
+
+$timeout = 30*60; // 30 minutes
+session_start();
+
+// Vérifie si l'utilisateur est connecté
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 1) {
+    // Redirection vers la page de connexion ou index
+    echo "🔒 Accès refusé : vous n'êtes pas connecté ou vous n'avez pas les droits.";
+    exit;
+}
+
 require_once '../config/db_config.php';
 //require_once '../config/For_watch/Auth_User/auth_veterinaire.php';
 require_once '../config/For_watch/Veterinaire_co.php';
