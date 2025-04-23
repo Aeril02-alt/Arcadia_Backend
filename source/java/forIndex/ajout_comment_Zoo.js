@@ -1,12 +1,12 @@
- // Fonction pour gérer l'envoi du formulaire
- document.getElementById('ajoutComZooIndex').addEventListener('submit', function(event) {
-    event.preventDefault(); // Empêche la soumission classique du formulaire
+// Ajout d'un commentaire sur la page d'accueil du zoo
+// On écoute l'événement de soumission du formulaire
+document.getElementById('ajoutComZooIndex').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    // Récupération des valeurs du formulaire
     const pseudo = document.getElementById('pseudoComZooIndex').value;
     const avis = document.getElementById('commentaireComZooIndex').value;
+    const messageZone = document.getElementById('responseMessage');
 
-    // Envoi des données via fetch en POST
     fetch('../source/php/forIndex/ajout_comment_Zoo.php', {
         method: 'POST',
         headers: {
@@ -17,8 +17,16 @@
             'avis': avis
         })
     })
-    .then(response => response.json())  // Convertir la réponse en JSON
-    .catch(error => {
-        document.getElementById('responseMessage').textContent = "Erreur lors de l'envoi du commentaire.";
+    .then(response => response.json())
+    .then(data => {
+        console.log("Réponse du serveur :", data); // pour tester
+        if (data.success) {
+            messageZone.textContent = "Commentaire bien envoyé !";
+            messageZone.style.color = "green";
+        } else {
+            messageZone.textContent = data.message || "Erreur inconnue.";
+            messageZone.style.color = "red";
+        }
     });
 });
+

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoo arcadia, Broceliande</title>
+
     <link rel="stylesheet" href="../source/css/style.css">
     <link rel="stylesheet" href="../source/css/header_footer.css">
     <link rel="stylesheet" href="../source/css/forPage.css">
+
     <script src="../source/java/Header_Footer.js" defer></script>
     <script src="../source/java/forIndex/comment_Zoo.js" defer></script>
     <script src="../source/java/forIndex/ajout_comment_Zoo.js" defer></script>
@@ -24,9 +26,7 @@
     <main id= "mainIndex">
         <h1 id="tittleIndex">Presentation du ZOO </h1>
         <section id ="presentationZooIndex">
-            <?php
-            use Source\Php\ForIndex\PresentationZoo;
-            ?>
+            <?php require_once realpath(__DIR__ . '/../source/php/ForIndex/Presentation_Zoo.php'); ?>
         </section>
     </main>
 
@@ -44,7 +44,10 @@
                 
                     <input type="submit" id="submitComZooIndex" value="Envoyer votre commentaire">
                 </form>
+            <!-- Zone pour les messages JS -->
+            <div id="responseMessage" style="margin-top: 10px;"></div>
         </details>
+
         <!--liste des commentaires de mongodb -->
         <div id="commentZooIndex">
             <nav aria-label="Comment navigation">
@@ -52,6 +55,7 @@
             </nav>
         </div>
     </aside>
+
     <!-- Conteneur de la pop-up vide -->
 <div id="contactPopup" class="popup">
     <div class="popup-content">
@@ -59,6 +63,7 @@
         <div id="popupFormContent"></div> <!-- Contenu chargé dynamiquement ici -->
     </div>
 </div>
+
     <!-- footer_same for all -->
     <footer>
         <nav aria-label="Footer navigation">

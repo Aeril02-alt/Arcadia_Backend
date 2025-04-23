@@ -1,20 +1,24 @@
 <?php
+// Presentation_Zoo.php
+require_once __DIR__ . '/../../../config/Mongo.php'; // Connexion via classe Mongo
 
-require '../vendor/autoload.php'; // le lien fonctionne car il prend en source de depart index.php
+try {
+    $mongo = new Mongo();
+    $collection = $mongo->getCollection('Arcadia', 'presentationsZoo');
 
-$mongo = new MongoDB\Client("mongodb://localhost:27017");
-$collection = $mongo->Arcadia->presentationsZoo;
+    // Récupérer le texte de présentation
+    $presentation = $collection->findOne(['presentationId' => '1']);
 
-// Récupérer le texte de présentation
-$presentation = $collection->findOne(['presentationId' => '1']);
-
-if ($presentation) {
     echo '<div id="presentationZooIndex">';
-    echo '<p>' . $presentation['texte'] . '</p>';
+    if ($presentation && isset($presentation['texte'])) {
+        echo '<p>' . nl2br(htmlspecialchars($presentation['texte'])) . '</p>';
+    } else {
+        echo '<p>Pas de présentation disponible.</p>';
+    }
     echo '</div>';
-} else {
+    
+} catch (Exception $e) {
     echo '<div id="presentationZooIndex">';
-    echo '<p>Pas de présentation disponible.</p>';
+    echo '<p>Erreur de connexion à la base de données : ' . htmlspecialchars($e->getMessage()) . '</p>';
     echo '</div>';
 }
-?>

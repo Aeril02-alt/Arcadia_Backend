@@ -5,6 +5,7 @@ include '../config/For_User/Habitat_Control.php';
 include '../config/For_User/Service_Control.php';
 include '../config/For_User/User_Control.php';
 include '../config/For_User/Rapport_Control.php';
+include '../source/php/forAdmin/admin_consultationsMongo.php';
 //require_once '../config/For_Watch/Auth_User/auth_Admin.php';
 ?>
 

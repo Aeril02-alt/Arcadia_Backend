@@ -28,3 +28,4 @@ fetch(url)  // Faire une requête HTTP pour recharger les commentaires
     .catch(error => {
         console.error('Erreur lors de la récupération des commentaires :', error);
     });
+    

@@ -1,7 +1,11 @@
 <?php
 // Page employer.php
 require_once '../config/db_config.php';
+require_once '../vendor/autoload.php';
+require_once '../config/Mongo.php';
+
 //require_once '../config/For_Watch/Auth_User/auth_emp.php';
+
 require_once '../config/For_User/Animals_Control.php';
 require_once '../config/For_User/Service_Control.php';
 require_once '../config/For_User/Food_control.php';
@@ -11,18 +15,23 @@ require_once '../config/Functions/ValideFoodForm.php';
 require_once '../source/php/views/messages.php';
 
 require_once '../controllers/employer_Controller.php';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Services et de la Nourriture des Animaux</title>
+    <title>Employer</title>
     <link rel="stylesheet" href="../source/css/style.css">
     <link rel="stylesheet" href="../source/css/header_footer.css">
     <link rel="stylesheet" href="../source/css/forPage.css">
+
     <script src="../source/java/Header_Footer.js" defer></script>
+
 </head>
+
 <body>
 <header>
     <nav aria-label="Main Navigation"><ul id="header"></ul></nav>
@@ -30,6 +39,30 @@ require_once '../controllers/employer_Controller.php';
 
 <?php displayMessages($errors, 'error'); ?>
 <?php displayMessages($success, 'success'); ?>
+
+        <section id="formPresentationUpdate">
+            <h2>Modifier la présentation du Zoo</h2>
+            <form method="POST" action="../source/php/ForEmployer/updatePresentationZoo.php">
+                <textarea name="texte" rows="8" cols="80" placeholder="Entrez la nouvelle présentation..."><?php
+                    // Pré-remplissage
+                    $mongo = new Mongo();
+                    $collection = $mongo->getCollection('Arcadia', 'presentationsZoo');
+                    $presentation = $collection->findOne(['presentationId' => '1']);
+                    echo isset($presentation['texte']) ? htmlspecialchars($presentation['texte']) : '';
+                ?></textarea>
+                <br><br>
+                <button type="submit">Mettre à jour</button>
+            </form>
+            <?php
+                    if (isset($_GET['update']) && $_GET['update'] === 'success') {
+                        echo '<p style="color: green;">Présentation mise à jour avec succès !</p>';
+                    } elseif (isset($_GET['update']) && $_GET['update'] === 'fail') {
+                        echo '<p style="color: red;">Erreur lors de la mise à jour.</p>';
+                    }
+                    ?>
+
+        </section>
+
 
     <!-- Formulaire pour ajouter une consommation de nourriture -->
     <h1>Ajouter une Consommation de Nourriture</h1>
@@ -107,8 +140,61 @@ require_once '../controllers/employer_Controller.php';
     </section>
 <?php endforeach; ?>
 
-<footer>
-    <nav aria-label="Footer Navigation"><ul id="footer"></ul></nav>
-</footer>
+<!-- Formulaire pour valider les commentaires -->
+<?php
+$mongo = new Mongo();
+$commentaires = $mongo->getCollection('Arcadia', 'commentairesZoo')->find()->toArray();
+?>
+<div style="max-height: 400px; overflow-y: auto;">
+
+    <h1 class="mb-4">Commentaires enregistrés</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Avis</th>
+                <th>Date</th>
+                <th>Valide</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($commentaires as $commentaire): ?>
+                <tr>
+                    <td><?= htmlspecialchars($commentaire['pseudo']) ?></td>
+                    <td><?= htmlspecialchars($commentaire['avis']) ?></td>
+                    <td><?= isset($commentaire['date']) ? $commentaire['date']->toDateTime()->format('d/m/Y H:i') : '—' ?></td>
+                    <td>
+                        <input type="checkbox" <?= $commentaire['valide'] ? 'checked' : '' ?>
+                            onchange="toggleValidation('<?= $commentaire['_id'] ?>', this.checked)">
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fonction pour valider ou invalider un commentaire
+function toggleValidation(id, checked) {
+    fetch('../config/mongo/valider_commentaire.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id, valide: checked })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Validation mise à jour");
+        } else {
+            console.error("Erreur serveur :", data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Erreur AJAX :", error);
+    });
+}
+</script>
 </body>
 </html>
