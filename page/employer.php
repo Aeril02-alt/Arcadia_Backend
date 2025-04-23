@@ -4,7 +4,7 @@ require_once '../config/db_config.php';
 require_once '../vendor/autoload.php';
 require_once '../config/Mongo.php';
 
-//require_once '../config/For_Watch/Auth_User/auth_emp.php';
+require_once '../config/For_Watch/Auth_User/auth_emp.php';
 
 require_once '../config/For_User/Animals_Control.php';
 require_once '../config/For_User/Service_Control.php';

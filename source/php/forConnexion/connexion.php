@@ -1,78 +1,75 @@
 <?php
-// Inclut la configuration de la base de données
-include('../config/db_config.php');
+// connexion.php
+// ===============================================
+// Active l'affichage des erreurs pendant le développement (à retirer en prod)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Démarre la session pour gérer l'état de connexion
+// Inclut la configuration PDO
+include('../../../config/db_config.php');
+
+// Démarre la session
 session_start();
 
-// Définit l'en-tête de réponse pour JSON
+// En-tête JSON
 header('Content-Type: application/json');
 
-// Vérifie que la requête est de type POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupère et assainit les données de l'utilisateur
-    $username = filter_input(INPUT_POST, 'mailConnexion', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $password = filter_input(INPUT_POST, 'motDePasse', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    // Vérifie que les champs ne sont pas vides
-    if (!empty($username) && !empty($password)) {
-        // Prépare la requête SQL pour vérifier l'utilisateur et récupérer son rôle
-        $stmt = $conn->prepare("SELECT password, role_id FROM utilisateur WHERE username = ?");
-        
-        // Vérifie que la requête est bien préparée
-        if ($stmt) {
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $stmt->store_result();
-
-            // Vérifie si l'utilisateur existe
-            if ($stmt->num_rows > 0) {
-                $stmt->bind_result($hashed_password, $role_id);
-                $stmt->fetch();
-
-                // Vérifie le mot de passe
-                if (password_verify($password, $hashed_password)) {
-                    // Regénère l'ID de session pour sécuriser la connexion
-                    session_regenerate_id(true);
-
-                    // Stocke les informations de l'utilisateur dans la session
-                    $_SESSION['username'] = $username;
-                    $_SESSION['role'] = $role_id;
-
-                    // Détermine la page de redirection en fonction du rôle
-                    $redirect_url = match ($role_id) {
-                        1 => "admin.php",         // page pour admin
-                        2 => "veterinaire.php",   // page pour vétérinaire
-                        3 => "employe.php",       // page pour employé
-                        default => "index.php",     // page par défaut pour rôle inconnu
-                    };
-
-                    // Renvoie une réponse JSON avec le statut de succès et la page de redirection
-                    echo json_encode([
-                        "status" => "success",
-                        "message" => "Connexion réussie.",
-                        "redirect" => $redirect_url
-                    ]);
-                } else {
-                    // Message d'erreur générique pour mot de passe incorrect
-                    echo json_encode(["status" => "error", "message" => "Nom d'utilisateur ou mot de passe incorrect."]);
-                }
-            } else {
-                // Message d'erreur générique si l'utilisateur n'existe pas
-                echo json_encode(["status" => "error", "message" => "Nom d'utilisateur ou mot de passe incorrect."]);
-            }
-            $stmt->close();
-        } else {
-            // Erreur si la requête SQL ne peut pas être préparée
-            echo json_encode(["status" => "error", "message" => "Erreur de connexion. Réessayez plus tard."]);
-        }
-    } else {
-        // Message d'erreur si les champs sont vides
-        echo json_encode(["status" => "error", "message" => "Champs requis manquants."]);
-    }
-} else {
-    // Message d'erreur si la requête n'est pas de type POST
-    echo json_encode(["status" => "error", "message" => "Requête non valide."]);
+// Vérifie que la requête est POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["status" => "error", "message" => "Requête non autorisée."]);
+    exit;
 }
 
-// Ferme la connexion à la base de données
-$conn->close();
+// Récupération et validation des données
+$email = filter_input(INPUT_POST, 'mailConnexion', FILTER_VALIDATE_EMAIL);
+$password = filter_input(INPUT_POST, 'motDePasse', FILTER_UNSAFE_RAW);
+
+if (!$email || empty($password)) {
+    echo json_encode(["status" => "error", "message" => "Email ou mot de passe invalide."]);
+    exit;
+}
+
+try {
+    $stmt = $pdo->prepare("SELECT password, role_id FROM utilisateur WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    error_log("User récupéré : " . json_encode($user));
+
+    if ($user) {
+        error_log("Mot de passe reçu : " . $password);
+        error_log("Hash stocké en base : " . $user['password']);
+        $verif = password_verify($password, $user['password']);
+        error_log("Résultat vérif : " . ($verif ? "OK" : "NON OK"));
+
+        if ($verif) {
+            error_log("Mot de passe correct");
+            session_regenerate_id(true);
+            $_SESSION['username'] = $email;
+            $_SESSION['role'] = $user['role_id'];
+
+            $redirect_url = match ($user['role_id']) {
+                1 => "admin.php",
+                2 => "veterinaire.php",
+                3 => "employe.php",
+                default => "index.php",
+            };
+
+            echo json_encode([
+                "status" => "success",
+                "message" => "Connexion réussie.",
+                "redirect" => $redirect_url
+            ]);
+            exit;
+        }
+    }
+
+    // Ici : si user non trouvé ou password faux
+    echo json_encode(["status" => "error", "message" => "Nom d'utilisateur ou mot de passe incorrect."]);
+
+} catch (PDOException $e) {
+    error_log("Erreur PDO connexion : " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => "Erreur serveur. Veuillez réessayer."]);
+}

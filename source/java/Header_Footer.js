@@ -96,9 +96,9 @@ connexionPopupForm.id = "connexionPopupForm";
 connexionPopupForm.className = "popupForm";
 connexionPopupForm.innerHTML = `
     <span id="closeConnexionPopupBtn" class="closeBtn">&times;</span>
-    <form id="connexionForm" action="connexion.php" method="POST">
-        <label for="pseudoConnexion">Pseudo :</label>
-        <input type="text" id="pseudoConnexion" name="pseudoConnexion" required>
+    <form id="connexionForm" method="POST">
+        <label for="mailConnexion">Email :</label>
+        <input type="email" id="mailConnexion" name="mailConnexion" required>
         <label for="motDePasse">Mot de passe :</label>
         <input type="password" id="motDePasse" name="motDePasse" required>
         <button type="submit">Connexion</button>
@@ -124,7 +124,16 @@ document.getElementById("connexionForm").addEventListener("submit", async (e) =>
             body: formData,
         });
 
-        const result = await response.json();
+        const rawText = await response.text();
+console.log("Réponse brute :", rawText);
+
+let result;
+try {
+    result = JSON.parse(rawText);
+} catch (err) {
+    throw new Error("Réponse non valide JSON");
+}
+
 
         if (result.status === "success") {
             alert(result.message);

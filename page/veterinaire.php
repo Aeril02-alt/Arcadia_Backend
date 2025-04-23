@@ -1,6 +1,6 @@
 <?php
 require_once '../config/db_config.php';
-// require_once '../config/For_watch/Auth_User/auth_veterinaire.php';
+//require_once '../config/For_watch/Auth_User/auth_veterinaire.php';
 require_once '../config/For_watch/Veterinaire_co.php';
 require_once '../config/For_User/Rapport_Control.php';
 require_once '../config/For_User/Animals_Control.php';
@@ -30,7 +30,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Rapports et Consommation par Animal</title>
-    <link rel="stylesheet" href="../source/css/style.css">
+    <!-- <link rel="stylesheet" href="../source/css/style.css"> -->
 </head>
 <body>
     <main>

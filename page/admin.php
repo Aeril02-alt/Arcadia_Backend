@@ -5,8 +5,7 @@ include '../config/For_User/Habitat_Control.php';
 include '../config/For_User/Service_Control.php';
 include '../config/For_User/User_Control.php';
 include '../config/For_User/Rapport_Control.php';
-include '../source/php/forAdmin/admin_consultationsMongo.php';
-//require_once '../config/For_Watch/Auth_User/auth_Admin.php';
+require_once '../config/For_Watch/Auth_User/auth_Admin.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +18,7 @@ include '../source/php/forAdmin/admin_consultationsMongo.php';
     <link rel="stylesheet" href="../source/css/forPage.css">
     <script src="../source/java/Header_Footer.js" defer></script>
 </head>
+
 <body>
 <header>
     <nav>
@@ -339,7 +339,6 @@ try {
 
         <button type="submit" name="add_rapport">Ajouter le rapport</button>
     </form>
-
     <!-- Tableau récapitulatif des rapports existants -->
     <h3>Liste des Rapports</h3>
     <table>
@@ -373,6 +372,9 @@ try {
         }
         ?>
     </table>
+</section>
+<section>
+    <?php include '../source/php/forAdmin/admin_consultationsMongo.php';?>
 </section>
 
 </main>
