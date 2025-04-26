@@ -1,5 +1,10 @@
 <?php
-require_once __DIR__ . '/../../../config/Mongo.php';
+// admin_consultationsMongo.php
+require_once __DIR__ . '/../config/init.php';
+
+require_once __DIR__ . CONFIG_PATH . '/config/mongo.php'; // Assurez-vous que le fichier de configuration MongoDB est inclus
+
+
 
 $mongo = new Mongo();
 $collection = $mongo->getCollection('Arcadia', 'consultations');
@@ -9,7 +14,7 @@ $cursor = $collection->find([], ['sort' => ['consultations' => -1]]);
 ?>
 
 <h2>📊 Consultations par animal</h2>
-<table border="1" cellpadding="8">
+<table border="1" style="border-collapse: collapse; padding: 8px;">
     <thead>
         <tr>
             <th>ID Animal</th>

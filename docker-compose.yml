@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - mongo
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: arcadia
+      MYSQL_USER: arcadia-user
+      MYSQL_PASSWORD: azerty123
+    ports:
+      - "3307:3306"
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"

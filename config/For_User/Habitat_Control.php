@@ -1,7 +1,9 @@
 <?php
 // Inclusion des fichiers nécessaires
-include_once '../config/db_config.php';
-include_once '../config/Functions/ImgDL.php';
+require_once __DIR__ . '/../init.php';
+
+require_once CONFIG_PATH . '/db_config.php';
+require_once CONFIG_PATH . '/Functions/ImgDL.php';
 
 // === HABITATS ===
 // S'assure que la requête est une requête POST

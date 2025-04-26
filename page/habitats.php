@@ -1,13 +1,14 @@
+<?php require_once __DIR__ . '/../config/init.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habitats du Zoo Arcadia</title>
-    <link rel="stylesheet" href="../source/css/style.css">
-    <link rel="stylesheet" href="../source/css/header_footer.css">
-    <link rel="stylesheet" href="../source/css/forPage.css">
-    <script src="../source/java/Header_Footer.js" defer></script>
+    <link rel="stylesheet" href="/source/css/style.css">
+    <link rel="stylesheet" href="/source/css/header_footer.css">
+    <link rel="stylesheet" href="/source/css/forPage.css">
+    <script src="/source/java/Header_Footer.js" defer></script>
 </head>
 <body>
  
@@ -16,7 +17,7 @@
             <ul id="header"></ul>
         </nav>
     </header>
-    <?php include '../source/php/forHabitat/Section.php'; ?>
+    <?php require_once SOURCE_PATH . '/php/forHabitat/Section.php'; ?>
     
     <!--
     <main>  Création d'un menu pour les différents habitats
@@ -48,7 +49,7 @@
     document.querySelectorAll('.boutonAnimal').forEach((element) => {
     element.addEventListener('click', () => {
         const animalId = element.getAttribute('data-animal-id'); // appel la classe animal specifique de <detail>
-        fetch('../config/update_compteur.php', {
+        fetch('/source/api/update_compteur.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

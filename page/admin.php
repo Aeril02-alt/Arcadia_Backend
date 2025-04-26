@@ -1,5 +1,8 @@
 <?php
 
+// Inclusion des chemins et autoload
+require_once __DIR__ . '/../config/init.php';
+
 $timeout = 30*60; // 30 minutes
 session_start();
 
@@ -11,23 +14,24 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 1) {
 }
 
 // admin.php
-include '../config/For_User/Animals_Control.php';
-include '../config/For_User/Habitat_Control.php';
-include '../config/For_User/Service_Control.php';
-include '../config/For_User/User_Control.php';
-include '../config/For_User/Rapport_Control.php';
-require_once '../config/For_Watch/Auth_User/auth_Admin.php';
+require_once CONFIG_PATH . '/For_User/Animals_Control.php';
+require_once CONFIG_PATH . '/For_User/Habitat_Control.php';
+require_once CONFIG_PATH . '/For_User/Service_Control.php';
+require_once CONFIG_PATH . '/For_User/User_Control.php';
+require_once CONFIG_PATH . '/For_User/Rapport_Control.php';
+require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_Admin.php';
+
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Administration du Zoo</title>
-    <link rel="stylesheet" href="../source/css/style.css">
-    <link rel="stylesheet" href="../source/css/header_footer.css">
-    <link rel="stylesheet" href="../source/css/forPage.css">
-    <script src="../source/java/Header_Footer.js" defer></script>
+    <title>Administration du Zoo</title><div class=""></div>
+    <link rel="stylesheet" href="/source/css/style.css">
+    <link rel="stylesheet" href="/source/css/header_footer.css">
+    <link rel="stylesheet" href="/source/css/forPage.css">
+    <script src="/source/java/Header_Footer.js" defer></script>
 </head>
 
 <body>
@@ -386,7 +390,7 @@ try {
     </table>
 </section>
 <section>
-    <?php include '../source/php/forAdmin/admin_consultationsMongo.php';?>
+    <?php require_once SOURCE_PATH . '/php/forAdmin/admin_consultationsMongo.php';?>
 </section>
 
 </main>

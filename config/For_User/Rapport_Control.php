@@ -1,6 +1,8 @@
 <?php
 // Inclusion de la configuration de la base de données
-include_once '../config/db_config.php';
+require_once __DIR__ . '/../init.php';
+require_once CONFIG_PATH . '/db_config.php';
+
 
 // === RAPPORTS VÉTÉRINAIRES ===
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_rapport'])) {

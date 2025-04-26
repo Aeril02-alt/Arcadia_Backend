@@ -1,31 +1,31 @@
 <?php
 
+require_once __DIR__ . '/../config/init.php';
+
 $timeout = 30*60; // 30 minutes
 session_start();
 
 // Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 1) {
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 3) {
     // Redirection vers la page de connexion ou index
     echo "🔒 Accès refusé : vous n'êtes pas connecté ou vous n'avez pas les droits.";
     exit;
 }
 
-// Page employer.php
-require_once '../config/db_config.php';
-require_once '../vendor/autoload.php';
-require_once '../config/Mongo.php';
+// Dépendances backend
+require_once CONFIG_PATH . '/Mongo.php';
+require_once CONFIG_PATH . '/Functions/ValideFoodForm.php';
 
-require_once '../config/For_Watch/Auth_User/auth_emp.php';
+// Authentification
+require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_emp.php';
 
-require_once '../config/For_User/Animals_Control.php';
-require_once '../config/For_User/Service_Control.php';
-require_once '../config/For_User/Food_control.php';
+// Contrôleurs spécifiques
+require_once CONFIG_PATH . '/For_User/Animals_Control.php';
+require_once CONFIG_PATH . '/For_User/Service_Control.php';
+require_once CONFIG_PATH . '/For_User/Food_control.php';
 
-require_once '../config/Functions/ValideFoodForm.php';
-
-require_once '../source/php/views/messages.php';
-
-require_once '../controllers/employer_Controller.php';
+require_once CONFIG_PATH . '/views/messages.php';
+require_once CONTROLLER_PATH . '/employer_Controller.php';
 
 ?>
 
@@ -35,11 +35,11 @@ require_once '../controllers/employer_Controller.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employer</title>
-    <link rel="stylesheet" href="../source/css/style.css">
-    <link rel="stylesheet" href="../source/css/header_footer.css">
-    <link rel="stylesheet" href="../source/css/forPage.css">
+    <link rel="stylesheet" href="/source/css/style.css">
+    <link rel="stylesheet" href="/source/css/header_footer.css">
+    <link rel="stylesheet" href="/source/css/forPage.css">
 
-    <script src="../source/java/Header_Footer.js" defer></script>
+    <script src="/source/java/Header_Footer.js" defer></script>
 
 </head>
 
@@ -53,7 +53,7 @@ require_once '../controllers/employer_Controller.php';
 
         <section id="formPresentationUpdate">
             <h2>Modifier la présentation du Zoo</h2>
-            <form method="POST" action="../source/php/ForEmployer/updatePresentationZoo.php">
+            <form method="POST" action="/page/api/update_presentation.php">
                 <textarea name="texte" rows="8" cols="80" placeholder="Entrez la nouvelle présentation..."><?php
                     // Pré-remplissage
                     $mongo = new Mongo();
@@ -187,7 +187,7 @@ $commentaires = $mongo->getCollection('Arcadia', 'commentairesZoo')->find()->toA
 <script>
     // Fonction pour valider ou invalider un commentaire
 function toggleValidation(id, checked) {
-    fetch('../config/mongo/valider_commentaire.php', {
+    fetch('/page/api/valider_commentaire.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

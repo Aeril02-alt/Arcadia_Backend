@@ -1,6 +1,12 @@
 <?php
 // Food_Control.php
-include_once '../config/db_config.php'; // Connexion à la base de données
+
+// Inclusion des constantes globales
+require_once __DIR__ . '/../init.php';
+
+// Connexion BDD
+require_once CONFIG_PATH . '/db_config.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérification que tous les champs nécessaires sont envoyés

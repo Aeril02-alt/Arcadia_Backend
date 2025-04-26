@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../config/init.php'; ?>
+<!-- ========== Page service.php ========== -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,7 +18,7 @@
             <ul id="header"></ul>
         </nav>
     </header>
-             <?php include '../source/php/forService/Section_comment.php'; ?>
+             <?php include_once SOURCE_PATH .  '/php/forService/Section_comment.php'; ?>
     <footer>
         <na>
             <ul id="footer"></ul>

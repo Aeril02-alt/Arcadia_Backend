@@ -4,7 +4,8 @@
 // Objectif : Incrémenter le compteur de consultations pour un animal donné
 // =============================================
 
-require 'vendor/autoload.php';
+require_once __DIR__ . '/init.php';
+
 use MongoDB\Client;
 
 // Spécifie que la réponse sera au format JSON

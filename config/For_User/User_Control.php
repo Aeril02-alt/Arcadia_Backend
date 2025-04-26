@@ -1,5 +1,7 @@
 <?php
- include_once '../config/db_config.php';
+require_once __DIR__ . '/../init.php';
+require_once CONFIG_PATH . '/db_config.php';
+
 
 // === UTILISATEURS ===
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {

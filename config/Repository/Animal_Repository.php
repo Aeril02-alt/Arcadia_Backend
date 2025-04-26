@@ -1,11 +1,12 @@
 <?php
-// ==================================================
+// ==========================================
 // Fichier : Animal_Repository.php
 // Objectif : Fournir des fonctions d'accès aux données animales
-// ==================================================
+// ==========================================
 
-require_once __DIR__ . '/../db_config.php';
-require_once __DIR__ . '/../Functions/ValideFoodForm.php';
+require_once __DIR__ . '/../init.php';
+require_once CONFIG_PATH . '/db_config.php';
+require_once CONFIG_PATH . '/Functions/ValideFoodForm.php';
 
 // Récupère tous les animaux avec leurs rapports vétérinaires (dernier en date)
 function getAnimalsWithReports(PDO $pdo): array {

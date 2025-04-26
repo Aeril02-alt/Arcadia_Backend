@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../Mongo.php';
+// ============================================
+require_once __DIR__ . '/../../init.php';
+require_once CONFIG_PATH . '/Mongo.php';
 
 header('Content-Type: application/json');
 

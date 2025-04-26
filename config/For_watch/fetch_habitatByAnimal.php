@@ -1,6 +1,8 @@
 <?php
 // Inclure la configuration de la base de données
-include "../config/db_config.php";
+require_once __DIR__ . '/../init.php';
+require_once CONFIG_PATH . '/db_config.php';
+
 
 try {
     // Créer une connexion à la base de données

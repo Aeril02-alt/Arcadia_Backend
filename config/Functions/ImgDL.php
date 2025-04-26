@@ -1,5 +1,6 @@
 <?php
-// ===============================
+require_once __DIR__ . '/../init.php';
+// ============================================
 // Fichier : ImgDL.php
 // Objectif : Gérer l'upload d'une image liée à un habitat
 // ===============================
@@ -38,7 +39,8 @@ function handleImageUpload($inputName, $pdo, $habitat_id) {
         }
 
         $habitat_name = strtolower(trim($habitat['nom']));
-        $uploadDir = "../doc/photo/" . $habitat_name . "/";
+        // chemin pour docker /web
+        $uploadDir = ROOT_PATH . "/doc/photo/" . $habitat_name . "/";
 
         // Créer le dossier s'il n'existe pas
         if (!is_dir($uploadDir)) {

@@ -6,8 +6,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Inclut la configuration PDO
-include('../../../config/db_config.php');
+require_once __DIR__ . '/../../../config/init.php';
+require_once CONFIG_PATH . '/db_config.php';
+
 
 // Démarre la session
 session_start();

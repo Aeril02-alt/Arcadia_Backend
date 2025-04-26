@@ -2,8 +2,9 @@
 // Démarre la session utilisateur
 session_start();
 
-// Inclusion de la base de données
-include_once '../config/db_config.php';
+// Inclusions mutualisées
+require_once __DIR__ . '/../../init.php';
+require_once CONFIG_PATH . '/db_config.php';
 
 // === AUTHENTIFICATION ADMIN ===
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {

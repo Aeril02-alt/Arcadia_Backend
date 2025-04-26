@@ -1,6 +1,7 @@
 <?php
 // Presentation_Zoo.php
-require_once __DIR__ . '/../../../config/Mongo.php'; // Connexion via classe Mongo
+require_once __DIR__ . '/../../../config/init.php';
+require_once CONFIG_PATH . '/Mongo.php'; // Connexion via classe Mongo
 
 try {
     $mongo = new Mongo();

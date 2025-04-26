@@ -1,7 +1,10 @@
 <?php
-// Inclusion des fichiers de configuration et de fonctions utiles
-include_once '../config/db_config.php';
-include_once '../config/Functions/ImgDL.php';
+// Inclusion des chemins globaux
+require_once __DIR__ . '/../init.php';
+
+// Inclusion mutualisée des fichiers de configuration et de fonction
+require_once CONFIG_PATH . '/db_config.php';
+require_once CONFIG_PATH . '/Functions/ImgDL.php';
 
 // === GESTION DES ANIMAUX & RACES ===
 // Vérifie que la méthode HTTP est bien POST

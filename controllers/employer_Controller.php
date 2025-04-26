@@ -4,13 +4,19 @@
 // Objectif : Contrôleur pour la gestion de l'alimentation des animaux
 // ===========================================================
 
-require_once '../config/db_config.php';
-require_once '../config/For_User/Animals_Control.php';
-require_once '../config/For_User/Service_Control.php';
-require_once '../config/Functions/ValideFoodForm.php';
-require_once '../source/php/views/messages.php';
-require_once '../config/repository/Animal_Repository.php';
-require_once '../config/repository/Service_Repository.php';
+require_once __DIR__ . '/../config/init.php'; // 🔑 Charge tous les chemins + autoload
+
+// Contrôleurs / Fonctions
+require_once CONFIG_PATH . '/For_User/Animals_Control.php';
+require_once CONFIG_PATH . '/For_User/Service_Control.php';
+require_once CONFIG_PATH . '/Functions/ValideFoodForm.php';
+
+// Repository
+require_once CONFIG_PATH . '/repository/Animal_Repository.php';
+require_once CONFIG_PATH . '/repository/Service_Repository.php';
+
+// Vue (messages)
+require_once SOURCE_PATH . '/php/views/messages.php';
 
 $errors = [];
 $success = [];

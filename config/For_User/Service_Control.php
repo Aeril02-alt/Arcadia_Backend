@@ -1,6 +1,7 @@
 <?php
 // Inclusion du fichier de configuration de la base de données
-include_once '../config/db_config.php';
+require_once __DIR__ . '/../init.php';
+require_once CONFIG_PATH . '/db_config.php';
 
 // === SERVICES ===
 // Vérifie que la requête est bien de type POST

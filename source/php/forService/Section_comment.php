@@ -1,7 +1,9 @@
 <?php
 // Inclure la configuration de la base de données et la fonction de service
-include('../config/db_config.php');
-include('../config/For_watch/fetch_services.php');
+require_once __DIR__ . '/../../config/init.php';
+require_once CONFIG_PATH . '/db_config.php';
+require_once CONFIG_PATH . '/For_watch/fetch_services.php';
+
 
 // Appeler la fonction pour récupérer les services
 $services = getServices($pdo);

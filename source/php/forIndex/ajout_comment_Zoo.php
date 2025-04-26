@@ -1,13 +1,14 @@
 <?php
-
 header('Content-Type: application/json');
-require '../../../vendor/autoload.php';
-require '../../../config/Mongo.php';
 
+require_once __DIR__ . '/../../config/init.php';
+require_once CONFIG_PATH . '/Mongo.php';
+require_once SOURCE_PATH . '/php/forIndex/ajout_comment_Zoo.php';
 
+use MongoDB\BSON\UTCDateTime; 
 try {
-    $mongo = new MongoDB\Client("mongodb://localhost:27017");
-    $collection = $mongo->Arcadia->commentairesZoo;
+    $mongo = new Mongo();
+    $collection = $mongo->getCollection('Arcadia', 'commentairesZoo');
 
     // Sécurisation des champs
     $pseudo = htmlspecialchars($_POST['pseudo'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -17,21 +18,17 @@ try {
         $commentaire = [
             'pseudo' => $pseudo,
             'avis' => $avis,
-            'date' => new MongoDB\BSON\UTCDateTime(),
+            'date' => new UTCDateTime(),  
             'valide' => false
         ];
 
         $collection->insertOne($commentaire);
 
         echo json_encode(['success' => true]);
-        exit;
     } else {
         echo json_encode(['success' => false, 'message' => 'Veuillez remplir tous les champs']);
-        exit;
     }
-
 } catch (Exception $e) {
     error_log($e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Une erreur est survenue.']);
-    exit;
 }

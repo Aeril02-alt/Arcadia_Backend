@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/../config/init.php'; ?>
+ <!-- ============================================================ -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoo arcadia, Broceliande</title>
 
-    <link rel="stylesheet" href="../source/css/style.css">
-    <link rel="stylesheet" href="../source/css/header_footer.css">
-    <link rel="stylesheet" href="../source/css/forPage.css">
+    <link rel="stylesheet" href="/source/css/style.css">
+    <link rel="stylesheet" href="/source/css/header_footer.css">
+    <link rel="stylesheet" href="/source/css/forPage.css">
 
-    <script src="../source/java/Header_Footer.js" defer></script>
-    <script src="../source/java/forIndex/comment_Zoo.js" defer></script>
-    <script src="../source/java/forIndex/ajout_comment_Zoo.js" defer></script>
+    <script src="/source/java/Header_Footer.js" defer></script>
+    <script src="/source/java/forIndex/comment_Zoo.js" defer></script>
+    <script src="/source/java/forIndex/ajout_comment_Zoo.js" defer></script>
     
 </head>
 <body>
@@ -24,9 +26,9 @@
         
        <!-- presentation du Zoo-->
     <main id= "mainIndex">
-        <h1 id="tittleIndex">Presentation du ZOO </h1>
+        <h1 id="tittleIndex"></h1>
         <section id ="presentationZooIndex">
-            <?php require_once realpath(__DIR__ . '/../source/php/ForIndex/Presentation_Zoo.php'); ?>
+            <?php require_once SOURCE_PATH . '/php/forIndex/presentation_Zoo.php'; ?>
         </section>
     </main>
 

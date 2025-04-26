@@ -1,5 +1,8 @@
 <?php
-include('../config/For_watch/fetch_habitatByAnimal.php');
+
+require_once __DIR__ . '/../../config/init.php';
+require_once CONFIG_PATH . '/For_watch/fetch_habitatByAnimal.php';
+
 ?>
 <!-- Code HTML pour afficher les données -->
 <main>
@@ -59,7 +62,7 @@ include('../config/For_watch/fetch_habitatByAnimal.php');
                 return;
             }
 
-            fetch('../config/mongo/increment_consultation.php', {
+            fetch('/page/api/increment_consultation.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `animal_id=${animalId}&prenom=${encodeURIComponent(prenom)}`
