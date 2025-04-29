@@ -68,7 +68,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') 
         if ($race_id) {
             try {
                 // Suppression d'une race par son ID
-                $stmt = $pdo->prepare("DELETE FROM race WHERE id = ?");
+                $stmt = $pdo->prepare("DELETE FROM race WHERE race_id = ?");
                 $stmt->execute([$race_id]);
                 echo "Race supprimée avec succès.";
             } catch (PDOException $e) {

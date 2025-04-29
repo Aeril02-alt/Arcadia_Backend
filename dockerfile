@@ -9,16 +9,18 @@ RUN apt-get update && apt-get install -y \
         && a2enmod rewrite \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copie la config Apache personnalisée
+# Copie la config Apache personnalisée (si tu en as besoin)
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
 
-# Copie les fichiers du projet
+# Copie tous les fichiers du projet
 COPY . /var/www/html/
 
-# Assurer les bonnes permissions pour les fichiers copiés
-RUN chown -R www-data:www-data /var/www/html/  # Apache doit être propriétaire des fichiers
+# Droits corrects pour Apache
+RUN chown -R www-data:www-data /var/www/html/
 
-# Donne les bonnes permissions au dossier doc/photo
-RUN chmod -R 755 /var/www/html/doc/photo && \
-    chown -R www-data:www-data /var/www/html/doc/photo  
-    # Apache a les droits d'écriture et lecture
+# Assure que doc/photo est accessible par Apache (lecture/écriture)
+RUN mkdir -p /var/www/html/doc/photo && \
+    chmod -R 755 /var/www/html/doc/photo && \
+    chown -R www-data:www-data /var/www/html/doc/photo
+
+EXPOSE 80
