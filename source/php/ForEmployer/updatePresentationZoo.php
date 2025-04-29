@@ -3,8 +3,7 @@
 
 // Autoriser uniquement les requêtes POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405); // Méthode non autorisée
-    echo json_encode(['error' => 'Méthode non autorisée']);
+    header('Location: /employer.php?update=fail');
     exit;
 }
 
@@ -13,38 +12,31 @@ require_once __DIR__ . '/../../../config/init.php';
 require_once CONFIG_PATH . '/Mongo.php';
 
 try {
-    // Connexion à la base de données MongoDB
-    $collection = (new Mongo())->connect()->presentationZoo;
+    $mongo = new Mongo();
+    $collection = $mongo->getCollection('Arcadia', 'presentationsZoo');
 
-    // Récupérer les données POST
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    // Vérifier que 'contenu' est présent
-    if (!isset($data['contenu']) || empty(trim($data['contenu']))) {
-        http_response_code(400); // Mauvaise requête
-        echo json_encode(['error' => 'Le contenu est obligatoire.']);
+    if (!isset($_POST['texte']) || empty(trim($_POST['texte']))) {
+        header('Location: /employer.php?update=fail');
         exit;
     }
 
-    // Définir le nouveau contenu
-    $nouveauContenu = trim($data['contenu']);
+    $nouveauContenu = trim($_POST['texte']);
 
-    // Mettre à jour ou insérer (upsert) le contenu
     $result = $collection->updateOne(
-        ['_id' => 'presentation'], // Utiliser un identifiant fixe
-        ['$set' => ['contenu' => $nouveauContenu]],
+        ['presentationId' => '1'],
+        ['$set' => ['texte' => $nouveauContenu]],
         ['upsert' => true]
     );
 
-    // Vérification du succès
     if ($result->getModifiedCount() > 0 || $result->getUpsertedCount() > 0) {
-        echo json_encode(['success' => 'Présentation mise à jour avec succès.']);
+        header('Location: /employer.php?update=success');
+        exit;
     } else {
-        echo json_encode(['message' => 'Aucun changement détecté.']);
+        header('Location: /employer.php?update=fail');
+        exit;
     }
 
 } catch (Exception $e) {
-    http_response_code(500); // Erreur serveur
-    echo json_encode(['error' => 'Erreur serveur : ' . $e->getMessage()]);
+    header('Location: /employer.php?update=fail');
+    exit;
 }
-?>

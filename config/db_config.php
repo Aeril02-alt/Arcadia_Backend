@@ -4,7 +4,7 @@
 // Objectif : Etablir une connexion PDO sécurisée
 // ===============================================
 
-$host = 'mysql';
+$host = 'db';
 $dbname = 'arcadia';
 $username = 'arcadia-user';
 $password = 'azerty123';

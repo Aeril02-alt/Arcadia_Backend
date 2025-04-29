@@ -21,9 +21,34 @@ services:
       MYSQL_PASSWORD: azerty123
     ports:
       - "3307:3306"
+    volumes:
+      - ./arcadia_dump.sql:/docker-entrypoint-initdb.d/arcadia_dump.sql  # Importer le dump SQL
 
   mongo:
     image: mongo
     restart: always
     ports:
       - "27017:27017"
+    volumes:
+        - ./mongo-dump/arcadia:/docker-entrypoint-initdb.d/arcadia/   # Monter le dossier de dump 
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    depends_on:
+      - db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8082:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo

@@ -8,6 +8,8 @@ require_once __DIR__ . '/../init.php';
 function handleImageUpload($inputName, $pdo, $habitat_id) {
     // Vérifie que le fichier a bien été envoyé sans erreur
     if (isset($_FILES[$inputName]) && $_FILES[$inputName]['error'] === 0) {
+        error_log(print_r($_FILES[$inputName], true));
+        // Vérifie que le fichier n'est pas trop volumineux (ex : 5 Mo max)
 
         // Vérifie que le fichier est bien une image autorisée (type et extension)
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -39,8 +41,9 @@ function handleImageUpload($inputName, $pdo, $habitat_id) {
         }
 
         $habitat_name = strtolower(trim($habitat['nom']));
-        // chemin pour docker /web
-        $uploadDir = ROOT_PATH . "/doc/photo/" . $habitat_name . "/";
+        
+        // Répertoire pour stocker les images téléchargées
+        $uploadDir = __DIR__ . "/../doc/photo/" . $habitat_name . "/";  // Le chemin du dossier local
 
         // Créer le dossier s'il n'existe pas
         if (!is_dir($uploadDir)) {
@@ -50,10 +53,11 @@ function handleImageUpload($inputName, $pdo, $habitat_id) {
             }
         }
 
-        // Générer un nom de fichier unique et enregistrer l'image
+        // Générer un nom unique pour le fichier
         $filename = uniqid() . "." . $extension;
         $targetPath = $uploadDir . $filename;
 
+        // Déplacer le fichier
         if (move_uploaded_file($_FILES[$inputName]['tmp_name'], $targetPath)) {
             return "doc/photo/" . $habitat_name . "/" . $filename;
         } else {
@@ -61,6 +65,6 @@ function handleImageUpload($inputName, $pdo, $habitat_id) {
         }
     }
 
-    // Retour par défaut si quelque chose a échoué
-    return null;
+    return null;  // Retour par défaut si quelque chose a échoué
 }
+

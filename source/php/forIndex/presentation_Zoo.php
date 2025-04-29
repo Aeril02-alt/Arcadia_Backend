@@ -8,7 +8,7 @@ try {
     $collection = $mongo->getCollection('Arcadia', 'presentationsZoo');
 
     // Récupérer le texte de présentation
-    $presentation = $collection->findOne(['presentationId' => '1']);
+    $presentation = $collection->findOne([]);
 
     echo '<div id="presentationZooIndex">';
     if ($presentation && isset($presentation['texte'])) {

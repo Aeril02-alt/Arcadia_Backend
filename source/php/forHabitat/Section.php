@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . '/../../../config/init.php';
 require_once CONFIG_PATH . '/For_watch/fetch_habitatByAnimal.php';
 
 ?>

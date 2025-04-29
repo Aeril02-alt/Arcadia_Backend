@@ -11,12 +11,6 @@ const headerContainer = document.getElementById("header");
 const navContainer = document.createElement("div");
 navContainer.classList.add("navContainer");
 
-// Ajout du logo dans le conteneur principal
-const logo = document.createElement("img");
-const rootPath = window.location.origin + '/doc/photo/image_site/logo_arcadia_WEBP.webp';
-logo.alt = "logo_du_site";
-logo.classList.add("logoArcadia");
-navContainer.appendChild(logo); // Le logo est ajouté au conteneur principal
 
 // Création du conteneur de navigation (liste des liens)
 const navList = document.createElement("ul");

@@ -1,8 +1,8 @@
 <?php
 // admin_consultationsMongo.php
-require_once __DIR__ . '/../config/init.php';
+require_once __DIR__ . '/../../../config/init.php';
 
-require_once __DIR__ . CONFIG_PATH . '/config/mongo.php'; // Assurez-vous que le fichier de configuration MongoDB est inclus
+require_once CONFIG_PATH . '/mongo.php'; // Assurez-vous que le fichier de configuration MongoDB est inclus
 
 
 

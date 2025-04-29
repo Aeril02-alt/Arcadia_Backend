@@ -1,6 +1,11 @@
 <?php
+ini_set('display_errors', 0); // Pour ne pas afficher d'erreurs HTML
+error_reporting(E_ALL);
+
+header('Content-Type: application/json');
+
 // ============================================
-require_once __DIR__ . '/../../init.php';
+require_once __DIR__ . '/../config/init.php';
 require_once CONFIG_PATH . '/Mongo.php';
 
 header('Content-Type: application/json');
@@ -13,7 +18,7 @@ if (isset($data['id']) && isset($data['valide'])) {
         $collection = $mongo->getCollection('Arcadia', 'commentairesZoo');
 
         $collection->updateOne(
-            ['_id' => new MongoDB\BSON\ObjectId($data['id'])],
+            ['_id' => $data['id']],
             ['$set' => ['valide' => (bool)$data['valide']]]
         );
 

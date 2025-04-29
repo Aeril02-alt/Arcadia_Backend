@@ -1,7 +1,7 @@
 <?php
 
 // Inclusion des chemins et autoload
-require_once __DIR__ . '/../config/init.php';
+require_once __DIR__ . '/config/init.php';
 
 $timeout = 30*60; // 30 minutes
 session_start();
@@ -19,7 +19,7 @@ require_once CONFIG_PATH . '/For_User/Habitat_Control.php';
 require_once CONFIG_PATH . '/For_User/Service_Control.php';
 require_once CONFIG_PATH . '/For_User/User_Control.php';
 require_once CONFIG_PATH . '/For_User/Rapport_Control.php';
-require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_Admin.php';
+//require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_Admin.php';
 
 ?>
 
@@ -162,14 +162,14 @@ try {
     $stmt = $pdo->query("SELECT * FROM animal");
     while ($a = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo "<tr>
-            <td>" . htmlspecialchars($a['prenom']) . "</td>
-            <td>" . htmlspecialchars($a['etat']) . "</td>
-            <td>" . htmlspecialchars($a['race_id']) . "</td>
-            <td>" . htmlspecialchars($a['habitat_id']) . "</td>
-            <td><img src='../" . htmlspecialchars($a['img_path']) . "' height='40'></td>
+            <td>" . htmlspecialchars($a['prenom'] ?? '') . "</td>
+            <td>" . htmlspecialchars($a['etat'] ?? '') . "</td>
+            <td>" . htmlspecialchars($a['race_id'] ?? '') . "</td>
+            <td>" . htmlspecialchars($a['habitat_id'] ?? '') . "</td>
+            <td><img src='../" . htmlspecialchars($a['img_path'] ?? '') . "' height='40'></td>
             <td>
                 <form method='POST'>
-                    <input type='hidden' name='animal_id' value='" . htmlspecialchars($a['animal_id']) . "'>
+                    <input type='hidden' name='animal_id' value='" . htmlspecialchars($a['animal_id'] ?? '') . "'>
                     <button type='submit' name='delete_animal'>Supprimer</button>
                 </form>
             </td>

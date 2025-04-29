@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../config/init.php';
+require_once __DIR__ . '/config/init.php';
 
 $timeout = 30*60; // 30 minutes
 session_start();
@@ -17,14 +17,14 @@ require_once CONFIG_PATH . '/Mongo.php';
 require_once CONFIG_PATH . '/Functions/ValideFoodForm.php';
 
 // Authentification
-require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_emp.php';
+//require_once CONFIG_PATH . '/For_Watch/Auth_User/auth_emp.php';
 
 // Contrôleurs spécifiques
 require_once CONFIG_PATH . '/For_User/Animals_Control.php';
 require_once CONFIG_PATH . '/For_User/Service_Control.php';
 require_once CONFIG_PATH . '/For_User/Food_control.php';
 
-require_once CONFIG_PATH . '/views/messages.php';
+require_once SOURCE_PATH . '/php/views/messages.php';
 require_once CONTROLLER_PATH . '/employer_Controller.php';
 
 ?>
@@ -53,7 +53,7 @@ require_once CONTROLLER_PATH . '/employer_Controller.php';
 
         <section id="formPresentationUpdate">
             <h2>Modifier la présentation du Zoo</h2>
-            <form method="POST" action="/page/api/update_presentation.php">
+            <form method="POST" action="/page/api/updatePresentationZoo.php">
                 <textarea name="texte" rows="8" cols="80" placeholder="Entrez la nouvelle présentation..."><?php
                     // Pré-remplissage
                     $mongo = new Mongo();
@@ -93,19 +93,15 @@ require_once CONTROLLER_PATH . '/employer_Controller.php';
         <label for="quantite">Quantité (kg) :</label>
         <input type="number" id="quantite" name="quantite" step="0.01" required>
         <br>
-
         <label for="type_nourriture">Type de nourriture :</label>
         <input type="text" id="type_nourriture" name="type_nourriture" required>
         <br>
-
         <label for="date_consumption">Date de consommation :</label>
         <input type="date" id="date_consumption" name="date_consumption" required>
         <br>
-
         <label for="description">Description :</label>
         <textarea id="description" name="description"></textarea>
         <br>
-
         <button type="submit" name="add_food">Ajouter la consommation</button>
     </form>
 
@@ -176,7 +172,7 @@ $commentaires = $mongo->getCollection('Arcadia', 'commentairesZoo')->find()->toA
                     <td><?= isset($commentaire['date']) ? $commentaire['date']->toDateTime()->format('d/m/Y H:i') : '—' ?></td>
                     <td>
                         <input type="checkbox" <?= $commentaire['valide'] ? 'checked' : '' ?>
-                            onchange="toggleValidation('<?= $commentaire['_id'] ?>', this.checked)">
+                            onchange="toggleValidation('<?= (string)$commentaire['_id'] ?>', this.checked)">
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -186,7 +182,9 @@ $commentaires = $mongo->getCollection('Arcadia', 'commentairesZoo')->find()->toA
 
 <script>
     // Fonction pour valider ou invalider un commentaire
-function toggleValidation(id, checked) {
+    function toggleValidation(id, checked) {
+    console.log("Envoi ID:", id, " | valeur:", checked);
+
     fetch('/page/api/valider_commentaire.php', {
         method: 'POST',
         headers: {

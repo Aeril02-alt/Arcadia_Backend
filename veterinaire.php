@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/..config/init.php';
+require_once __DIR__ . '/config/init.php';
+
 $timeout = 30*60; // 30 minutes
 session_start();
 
@@ -16,6 +17,7 @@ require_once CONFIG_PATH . '/db_config.php';
 require_once CONFIG_PATH . '/For_watch/Veterinaire_co.php';
 require_once CONFIG_PATH . '/For_User/Rapport_Control.php';
 require_once CONFIG_PATH . '/For_User/Animals_Control.php';
+require_once CONFIG_PATH . '/For_User/Food_control.php';
 
 
 $animaux_data = []; // Sécurité minimale
@@ -31,6 +33,13 @@ try {
         $stmt_rapports = $pdo->prepare("SELECT * FROM rapport_veterinaire WHERE animal_id = ?");
         $stmt_rapports->execute([$animal['animal_id']]);
         $animal['rapports'] = $stmt_rapports->fetchAll(PDO::FETCH_ASSOC);
+        
+        // 🔥 Récupérer les consommations de nourriture de cet animal
+        $stmt_consommations = $pdo->prepare("SELECT * FROM consommation_nourriture WHERE animal_id = ?");
+        $stmt_consommations->execute([$animal['animal_id']]);
+        $animal['consommations'] = $stmt_consommations->fetchAll(PDO::FETCH_ASSOC);
+
+        // Ajouter l'animal complet dans $animaux_data
         $animaux_data[] = $animal;
     }
 } catch (PDOException $e) {
@@ -50,32 +59,58 @@ try {
         <h1>Rapports et Consommation par Animal</h1>
 
         <?php foreach ($animaux_data as $animal): ?>
-            <section class="animal-section">
-                <h2><?= htmlspecialchars($animal['prenom']) ?> (<?= htmlspecialchars($animal['race_label']) ?>)</h2>
+    <section class="animal-section">
+        <h2><?= htmlspecialchars($animal['prenom']) ?> (<?= htmlspecialchars($animal['race_label']) ?>)</h2>
 
-                <?php if (!empty($animal['rapports'])): ?>
-                    <details>
-                        <summary>Rapports vétérinaires (<?= count($animal['rapports']) ?>)</summary>
-                        <?php foreach ($animal['rapports'] as $rapport): ?>
-                            <div class="rapport-block">
-                                <p>
-                                    <strong>Date :</strong> <?= htmlspecialchars($rapport['date']) ?><br>
-                                    <strong>Détail :</strong><br>
-                                    <?= nl2br(htmlspecialchars($rapport['detail'])) ?>
-                                </p>
-                                <form method="POST" action="">
-                                    <input type="hidden" name="delete_rapport" value="1">
-                                    <input type="hidden" name="rapport_veterinaire_id" value="<?= $rapport['rapport_veterinaire_id'] ?>">
-                                    <button type="submit">Supprimer</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    </details>
-                <?php else: ?>
-                    <p><em>Aucun rapport vétérinaire pour cet animal.</em></p>
-                <?php endif; ?>
-        <?php endforeach; ?>
+        <!-- Rapports vétérinaires -->
+        <?php if (!empty($animal['rapports'])): ?>
+            <details>
+                <summary>Rapports vétérinaires (<?= count($animal['rapports']) ?>)</summary>
+                <?php foreach ($animal['rapports'] as $rapport): ?>
+                    <div class="rapport-block">
+                        <p>
+                            <strong>Date :</strong> <?= htmlspecialchars($rapport['date']) ?><br>
+                            <strong>Détail :</strong><br>
+                            <?= nl2br(htmlspecialchars($rapport['detail'])) ?>
+                        </p>
+                        <form method="POST" action="">
+                            <input type="hidden" name="delete_rapport" value="1">
+                            <input type="hidden" name="rapport_veterinaire_id" value="<?= $rapport['rapport_veterinaire_id'] ?>">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            </details>
+        <?php else: ?>
+            <p><em>Aucun rapport vétérinaire pour cet animal.</em></p>
+        <?php endif; ?>
 
+        <!-- Consommations de nourriture -->
+        <?php if (!empty($animal['consommations'])): ?>
+            <details>
+                <summary>Consommations de nourriture (<?= count($animal['consommations']) ?>)</summary>
+                <?php foreach ($animal['consommations'] as $consommation): ?>
+                    <div class="conso-block">
+                        <p>
+                            <strong>Date :</strong> <?= htmlspecialchars($consommation['date_consumption']) ?><br>
+                            <strong>Quantité :</strong> <?= htmlspecialchars($consommation['quantite']) ?><br>
+                            <strong>Type :</strong> <?= htmlspecialchars($consommation['type_nourriture']) ?><br>
+                            <strong>Description :</strong><br>
+                            <?= nl2br(htmlspecialchars($consommation['description'])) ?>
+                        </p>
+                        <form method="POST" action="">
+                            <input type="hidden" name="delete_food" value="1">
+                            <input type="hidden" name="consommation_id" value="<?= $consommation['consommation_id'] ?>">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            </details>
+        <?php else: ?>
+            <p><em>Aucune consommation de nourriture pour cet animal.</em></p>
+        <?php endif; ?>
+    </section>
+<?php endforeach; ?>
 
         <!-- AJOUT RAPPORT VÉTÉRINAIRE -->
         <section class="ajout_rapport">
