@@ -5,11 +5,23 @@ services:
     build: .
     ports:
       - "8080:80"
+    # En dev, on monte le code hors vendor pour hot-reload,
+    # tout en préservant vendor dans un volume Docker
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html:delegated
+      - vendor_data:/var/www/html/vendor
     depends_on:
       - db
-      - mongo
+      # - mongo   # décommentez si vous voulez attendre le mongo local
+    environment:
+      # MongoDB Atlas
+      MONGODB_URI: "mongodb+srv://moerkerkeaxelprog:LR9sowBG1Hc2g0uH@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority"
+      # MySQL
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: arcadia
+      DB_USERNAME: arcadia-user
+      DB_PASSWORD: azerty123
 
   db:
     image: mysql:8.0
@@ -22,15 +34,16 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - ./arcadia_dump.sql:/docker-entrypoint-initdb.d/arcadia_dump.sql  # Importer le dump SQL
+      - ./arcadia_dump.sql:/docker-entrypoint-initdb.d/arcadia_dump.sql
 
   mongo:
-    image: mongo
+    image: mongo:6.0
     restart: always
     ports:
       - "27017:27017"
-    volumes:
-        - ./mongo-dump/arcadia:/docker-entrypoint-initdb.d/arcadia/   # Monter le dossier de dump 
+    # Ne sert qu’en dev pour importer votre dump local
+    #volumes:#
+     # - ./mongo-dump/arcadia:/docker-entrypoint-initdb.d/arcadia
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -52,3 +65,6 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongo
     depends_on:
       - mongo
+
+volumes:
+  vendor_data:
