@@ -29,7 +29,9 @@ RUN composer install --no-dev --optimize-autoloader
 # Copie du code et réglages des permissions
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
 COPY . .
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+# Copie du fichier de configuration de l’application
 
 
  #EXPOSE 80

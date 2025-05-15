@@ -16,7 +16,7 @@ services:
       # - mongo   # décommentez si vous voulez attendre le mongo local
     environment:
       # MongoDB Atlas
-      MONGODB_URI: "mongodb+srv://moerkerkeaxelprog:LR9sowBG1Hc2g0uH@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority"
+      MONGODB_URI: "mongodb+srv://moerkerkeaxelprog:jB2xdVOzackAC3Im@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority"
       # MySQL
       DB_HOST: db
       DB_PORT: 3306

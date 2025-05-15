@@ -1,0 +1,30 @@
+# flyctl launch added from .gitignore
+old
+
+# flyctl launch added from vendor\mongodb\mongodb\.gitignore
+# Composer
+vendor\mongodb\mongodb\**\composer.phar
+vendor\mongodb\mongodb\**\composer.lock
+vendor\mongodb\mongodb\**\vendor
+
+# PHPUnit
+vendor\mongodb\mongodb\**\phpunit.phar
+vendor\mongodb\mongodb\**\phpunit.xml
+vendor\mongodb\mongodb\**\.phpunit.result.cache
+
+# phpcs
+vendor\mongodb\mongodb\**\.phpcs-cache
+vendor\mongodb\mongodb\**\phpcs.xml
+
+# psalm
+vendor\mongodb\mongodb\**\psalm.xml
+
+# phpbench
+vendor\mongodb\mongodb\**\.phpbench
+vendor\mongodb\mongodb\**\phpbench.json
+
+# bref
+vendor\mongodb\mongodb\**\.serverless
+
+vendor\mongodb\mongodb\**\mongocryptd.pid
+fly.toml
