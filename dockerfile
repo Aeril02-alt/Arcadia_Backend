@@ -19,6 +19,7 @@ RUN apt-get update && \
 # Récupération de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+
 WORKDIR /var/www/html
 
 # Installation des dépendances PHP
@@ -26,7 +27,12 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
 
 # Copie du code et réglages des permissions
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
 COPY . .
 RUN chown -R www-data:www-data /var/www/html
 
-EXPOSE 80
+
+ #EXPOSE 80
+ENV PORT=8080
+EXPOSE 8080
+

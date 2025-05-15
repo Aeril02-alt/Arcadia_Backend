@@ -1,13 +1,9 @@
 <?php
-// ===============================================
-// Fichier : db_config.php
-// Objectif : Etablir une connexion PDO sécurisée
-// ===============================================
 
-$host = 'db';
-$dbname = 'arcadia';
-$username = 'arcadia-user';
-$password = 'azerty123';
+$host = 'mysql-moerkerke.alwaysdata.net';
+$dbname = 'moerkerke_arcadia';
+$username = 'moerkerke';
+$password = 'Azerty@123';
 
 try {
     // Connexion PDO avec encodage utf8mb4 et gestion des erreurs par exception
@@ -28,4 +24,4 @@ try {
     echo "Impossible de se connecter à la base de données.";
     exit;
 }
-?>
+

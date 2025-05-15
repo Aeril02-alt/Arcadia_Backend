@@ -10,4 +10,4 @@ define('API_PATH', ROOT_PATH . '/page/api');
 define('CONTROLLER_PATH', ROOT_PATH . '/controllers');
 define('DOC_PATH', ROOT_PATH . '/doc');
 
-require_once ROOT_PATH . '/vendor/autoload.php';
+//require_once ROOT_PATH . '/vendor/autoload.php';
