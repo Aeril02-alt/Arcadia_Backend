@@ -15,7 +15,8 @@ primary_region = 'cdg'
   DB_PASSWORD = 'azerty123'
   DB_PORT = '3306'
   DB_USERNAME = 'arcadia-user'
-  MONGODB_URI = 'mongodb+srv://moerkerkeaxelprog:jB2xdVOzackAC3Im@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority'
+  MONGODB_URI="mongodb+srv://moerkerkeaxelprog:jB2xdVOzackAC3Im@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority"
+
 
 [http_service]
   internal_port = 8080
