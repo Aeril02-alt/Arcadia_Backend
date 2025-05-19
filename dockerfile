@@ -1,7 +1,6 @@
 FROM php:8.2-apache
 
-# Nous avons besoin de libssl-dev et pkg-config pour que l’extension mongodb compile avec SSL
-# ainsi que libzip-dev, zip, unzip et git pour d’autres dépendances.
+# Installation des dépendances et extensions PHP nécessaires
 RUN apt-get update && \
     apt-get install -y \
       libssl-dev \
@@ -19,22 +18,24 @@ RUN apt-get update && \
 # Récupération de Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-
+# Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Installation des dépendances PHP
+# Copier les fichiers de configuration
 COPY composer.json composer.lock ./
+
+# Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Copie du code et réglages des permissions
-COPY apache.conf /etc/apache2/sites-available/000-default.conf
+# Copier le reste du code source
 COPY . .
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
-# Copie du fichier de configuration de l’application
 
+# Définir les permissions (optionnel, peut ralentir le build)
+RUN chown -R www-data:www-data /var/www/html
 
- #EXPOSE 80
+# Définir le port d'écoute
 ENV PORT=8080
 EXPOSE 8080
 
+# Démarrer le serveur Apache
+CMD ["apache2-foreground"]

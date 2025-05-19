@@ -7,21 +7,28 @@ class Mongo {
     private Client $client;
 
     public function __construct() {
-        // Charge l’autoloader si vous n’utilisez pas Composer/PSR-4
+        // Charge l'autoloader si nécessaire
         require_once __DIR__ . '/../vendor/autoload.php';
 
-        $uri = getenv('MONGODB_URI') ?: die("MONGODB_URI manquante\n");
+        // Récupère l'URI depuis les variables d'environnement
+        $uri = getenv('MONGODB_URI');
 
+        // Vérifie que l'URI est définie
+        if (!$uri) {
+            die("Erreur critique : MONGODB_URI manquante dans les variables d'environnement.\n");
+        }
+
+        // Ajoute les options TLS nécessaires
         try {
-            // On assigne bien à la propriété $this->client
             $this->client = new Client(
                 $uri,
-                [],
+                ['tls' => true], // Force l'utilisation de TLS
                 ['connectTimeoutMS' => 3000]
             );
-            echo "";
+            echo "Connexion réussie à MongoDB\n";
         } catch (\Exception $e) {
-            die("Erreur connexion MongoDB : " . $e->getMessage() . "\n");
+            error_log("Erreur connexion MongoDB : " . $e->getMessage());
+            die("Erreur critique : Impossible de se connecter à la base de données.\n");
         }
     }
 
@@ -31,28 +38,3 @@ class Mongo {
                     ->selectCollection($collectionName);
     }
 }
-
-
-
-
-// arcadia_backend/config/Mongo.php
-
-/*use MongoDB\Client;
-use MongoDB\Exception\Exception;
-
-class Mongo {
-    private Client $client;
- public function __construct() {
-        try {
-            // Utilise la variable d'environnement MONGODB_URI
-            $this->client = new Client(
-                getenv('MONGODB_URI'),
-                [],
-                ['connectTimeoutMS' => 3000] // timeout rapide en cas d'erreur
-            );
-        } catch (\Exception $e) {
-            error_log('Erreur connexion MongoDB : ' . $e->getMessage());
-            die('Erreur critique : Impossible de se connecter à la base de données.');
-        }
-    }
-*/

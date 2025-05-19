@@ -1,30 +1,60 @@
-# flyctl launch added from .gitignore
-old
+# Exclure les dépendances locales
+vendor/
+node_modules/
 
-# flyctl launch added from vendor\mongodb\mongodb\.gitignore
-# Composer
-vendor\mongodb\mongodb\**\composer.phar
-vendor\mongodb\mongodb\**\composer.lock
-vendor\mongodb\mongodb\**\vendor
-
-# PHPUnit
-vendor\mongodb\mongodb\**\phpunit.phar
-vendor\mongodb\mongodb\**\phpunit.xml
-vendor\mongodb\mongodb\**\.phpunit.result.cache
-
-# phpcs
-vendor\mongodb\mongodb\**\.phpcs-cache
-vendor\mongodb\mongodb\**\phpcs.xml
-
-# psalm
-vendor\mongodb\mongodb\**\psalm.xml
-
-# phpbench
-vendor\mongodb\mongodb\**\.phpbench
-vendor\mongodb\mongodb\**\phpbench.json
-
-# bref
-vendor\mongodb\mongodb\**\.serverless
-
-vendor\mongodb\mongodb\**\mongocryptd.pid
+# Exclure les fichiers de configuration sensibles
+.env
+docker-compose.override.yml
 fly.toml
+
+# Exclure les dumps de base de données
+arcadia_dump.sql
+mongo-dump/
+
+# Exclure les fichiers temporaires et de cache
+*.log
+logs/
+cache/
+tmp/
+storage/
+.DS_Store
+Thumbs.db
+
+# Exclure les fichiers générés par Composer
+composer.lock
+composer.phar
+
+# Exclure les fichiers de test et de documentation
+tests/
+docs/
+*.md
+README.md
+LICENSE
+
+# Exclure les fichiers de configuration des éditeurs
+.idea/
+.vscode/
+
+# Exclure les fichiers spécifiques à Docker
+.dockerignore
+
+# Exclure les fichiers système
+*.swp
+*.swo
+*.bak
+
+# Exclure les fichiers de build
+build/
+dist/
+coverage/
+
+# Exclure les fichiers volumineux
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.mp4
+*.mp3
+*.avi
+*.mov

@@ -1,1 +1,70 @@
-/old/
+# Dépendances
+/vendor/
+/node_modules/
+/composer.lock
+/composer.phar
+
+# Configuration sensible
+.env
+docker-compose.override.yml
+fly.toml
+
+# Fichiers de logs
+*.log
+logs/
+/storage/
+/cache/
+/tmp/
+
+# Fichiers de dump de base de données
+arcadia_dump.sql
+mongo-dump/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+
+# Fichiers générés par l'IDE
+.idea/
+.vscode/
+
+# Fichiers de documentation
+*.md
+README.md
+LICENSE
+docs/
+
+# Fichiers de build
+/build/
+/dist/
+/coverage/
+
+# Tests
+/tests/
+/phpunit.xml
+/phpunit.xml.dist
+/.phpunit.result.cache
+
+# Images et fichiers volumineux
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.mp4
+*.mp3
+*.avi
+*.mov
+
+# Caches et fichiers temporaires
+/.serverless
+/.phpcs-cache
+/.phpbench
+/.phpstan-cache
+/.psalm-cache
+
+# Fichiers de configuration spécifique
+fly.toml

@@ -1,5 +1,4 @@
-# This file is part of the Arcadia project.
-#version: '3.8'
+version: '3.8'
 
 services:
   web:
@@ -13,7 +12,6 @@ services:
       - vendor_data:/var/www/html/vendor
     depends_on:
       - db
-      # - mongo   # décommentez si vous voulez attendre le mongo local
     environment:
       # MongoDB Atlas
       MONGODB_URI: "mongodb+srv://moerkerkeaxelprog:jB2xdVOzackAC3Im@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority"
@@ -37,15 +35,6 @@ services:
     volumes:
       - ./arcadia_dump.sql:/docker-entrypoint-initdb.d/arcadia_dump.sql
 
- # mongo:
-  #  image: mongo:6.0
-   # restart: always
-   # ports:
-    #  - "27017:27017"
-    # Ne sert qu’en dev pour importer votre dump local
-    #volumes:#
-     # - ./mongo-dump/arcadia:/docker-entrypoint-initdb.d/arcadia
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
@@ -56,16 +45,6 @@ services:
       PMA_PORT: 3306
     depends_on:
       - db
-
-#  mongo-express:
-#   image: mongo-express
- #   restart: always
-  #  ports:
-   #   - "8082:8081"
-    #environment:
-     # ME_CONFIG_MONGODB_SERVER: mongo
-    #depends_on:
-    #  - mongo
 
 volumes:
   vendor_data:
