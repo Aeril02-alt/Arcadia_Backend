@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Installation des dépendances et extensions PHP nécessaires
+# Installation des dépendances système et extensions PHP
 RUN apt-get update && \
     apt-get install -y \
       libssl-dev \
@@ -15,22 +15,22 @@ RUN apt-get update && \
     a2enmod rewrite && \
     rm -rf /var/lib/apt/lists/*
 
-# Récupération de Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
 # Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Copier les fichiers de configuration
-COPY composer.json composer.lock ./
+# Récupérer Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copier uniquement les fichiers nécessaires pour Composer
+COPY ./composer.json ./composer.lock ./
 
 # Installer les dépendances PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Copier le reste du code source
+# Copier le reste du code source (en respectant le .dockerignore)
 COPY . .
 
-# Définir les permissions (optionnel, peut ralentir le build)
+# Définir les permissions (éviter si possible)
 RUN chown -R www-data:www-data /var/www/html
 
 # Définir le port d'écoute

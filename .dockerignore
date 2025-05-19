@@ -21,7 +21,6 @@ storage/
 Thumbs.db
 
 # Exclure les fichiers générés par Composer
-composer.lock
 composer.phar
 
 # Exclure les fichiers de test et de documentation
