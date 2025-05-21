@@ -1,4 +1,6 @@
 <?php
+//init.php
+// ============================================
 // Définit un chemin racine absolu basé sur la position de ce fichier
 define('ROOT_PATH', realpath(__DIR__ . '/../'));
 

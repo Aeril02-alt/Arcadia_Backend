@@ -2,8 +2,8 @@
 
 $host = 'mysql-moerkerke.alwaysdata.net';
 $dbname = 'moerkerke_arcadia';
-$username = 'moerkerke';
-$password = 'Azerty@123';
+$username = 'moerkerke_arcadi';
+$password = 'Azerty@123;';
 
 try {
     // Connexion PDO avec encodage utf8mb4 et gestion des erreurs par exception

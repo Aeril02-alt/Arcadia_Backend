@@ -11,7 +11,7 @@ class Mongo {
         require_once __DIR__ . '/../vendor/autoload.php';
 
         // Récupère l'URI depuis les variables d'environnement
-        $uri = getenv('MONGODB_URI');
+         $uri = 'mongodb+srv://moerkerkeaxelprog:jB2xdVOzackAC3Im@cluster0.zx9bdsi.mongodb.net/arcadia?retryWrites=true&w=majority';
 
         // Vérifie que l'URI est définie
         if (!$uri) {
@@ -25,7 +25,7 @@ class Mongo {
                 ['tls' => true], // Force l'utilisation de TLS
                 ['connectTimeoutMS' => 3000]
             );
-            echo "Connexion réussie à MongoDB\n";
+   //         echo "Connexion réussie à MongoDB\n";
         } catch (\Exception $e) {
             error_log("Erreur connexion MongoDB : " . $e->getMessage());
             die("Erreur critique : Impossible de se connecter à la base de données.\n");

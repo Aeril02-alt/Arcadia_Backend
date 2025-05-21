@@ -1,4 +1,6 @@
 <?php
+//fetch_habitatByAnimal.php
+// // ============================================
 // Inclure la configuration de la base de données
 require_once __DIR__ . '/../init.php';
 require_once CONFIG_PATH . '/db_config.php';
@@ -6,14 +8,14 @@ require_once CONFIG_PATH . '/db_config.php';
 
 try {
     // Créer une connexion à la base de données
-    $conn = new PDO("mysql:host=$host;dbname=arcadia", $username, $password);
+    $conn = new PDO("mysql:host=$host;dbname=moerkerke_arcadia", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Initialiser la variable $habitats comme un tableau vide
     $habitats = [];
 
     // Récupérer les informations des habitats et des animaux associés
-    $stmt = $conn->prepare("
+    $stmt = $pdo->prepare("
             SELECT
                 h.habitat_id,
                 h.nom AS habitat_nom,

@@ -37,4 +37,3 @@ function getRapportsByAnimal(PDO $pdo, int $animal_id): array {
         return [];
     }
 }
-?>

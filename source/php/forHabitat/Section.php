@@ -1,5 +1,6 @@
 <?php
-
+//section.php
+// ============================================
 require_once __DIR__ . '/../../../config/init.php';
 require_once CONFIG_PATH . '/For_watch/fetch_habitatByAnimal.php';
 
@@ -13,8 +14,7 @@ require_once CONFIG_PATH . '/For_watch/fetch_habitatByAnimal.php';
                 <figure>
                     <!-- ➤ Appel à image_habitat.php -->
                     <img src="../<?php echo htmlspecialchars($habitat['img_path']); ?>"
-                        alt="Image de <?php echo htmlspecialchars($habitat['nom']); ?>"
-                        onerror="handleHabitatFallback(this)">
+                        alt="<?php echo htmlspecialchars($habitat['nom']); ?>">
                     <figcaption><?php echo htmlspecialchars($habitat['description']); ?></figcaption>
                 </figure>
 
@@ -35,8 +35,7 @@ require_once CONFIG_PATH . '/For_watch/fetch_habitatByAnimal.php';
                             <?php if (!empty($animal['animal_id'])): ?>
                                 <!-- ➤ Appel à image_animal.php -->
                                 <img src="../<?php echo htmlspecialchars($animal['img_path']); ?>"
-                                    alt="Image de <?php echo htmlspecialchars($animal['prenom']); ?>"
-                                    onerror="handleImageFallback(this)">
+                                    alt="<?php echo htmlspecialchars($animal['prenom']); ?>">
                             <?php endif; ?>
                         </details>
                     <?php endforeach; ?>

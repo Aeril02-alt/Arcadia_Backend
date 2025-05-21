@@ -26,7 +26,7 @@
         
        <!-- presentation du Zoo-->
     <main id= "mainIndex">
-        <h1 id="tittleIndex"></h1>
+        <h1 id="tittleIndex">Bienvenue au Zoo Arcadia, Brocéliande</h1>
         <section id ="presentationZooIndex">
             <?php require_once SOURCE_PATH . '/php/forIndex/presentation_Zoo.php'; ?>
         </section>
